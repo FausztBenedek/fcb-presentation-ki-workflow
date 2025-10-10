@@ -5,8 +5,14 @@ title: FCB - KI Workflow
 transition: slide-left
 ---
 
+<style>
+/* Hack to make the big mermaid diagram scrollable */
+.slidev-layout {
+    overflow: scroll;
+}
+</style>
 
-```mermaid {theme: 'neutral', scale: 0.4}
+```mermaid {theme: 'forest', scale: 0.7}
 ---
 title: AI Workflow
 ---
