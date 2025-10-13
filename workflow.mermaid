@@ -35,8 +35,7 @@ graph TD
     __START__(Start)
     __START__ --> Pre-process
     subgraph Pre-process
-        customer_data_extract[["Auslesen von Versicherungsnummer"]]
-        class customer_data_extract customer_data_extract
+        customer_data_extract[["Auslesen von Versicherungsnummer aus dem Text"]]
         fetch_customer_details{{"Abruf von Kundeninformationen durch API"}}
         router[["Router"]]
         customer_data_extract --> fetch_customer_details
