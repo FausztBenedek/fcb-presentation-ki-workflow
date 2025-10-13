@@ -13,22 +13,26 @@ import { onMounted } from 'vue'
 
 const nav = useNav()
 
-let previous = undefined
+let previous = {}
 
 onMounted(() => {
   window.addEventListener('keydown', (e) => {
-    // Example: press Shift + S to go to slide 7
-    console.log("navigate")
-    if (e.key === 'e') {
-      let current = nav.currentSlideNo.value
-      if (4 == current) {
-        nav.go(previous)
-        previous = undefined
-      } else {
-        previous = current
-        nav.go(4)
-      }
+    function onKeyToSlied(key, slide) {
+        console.log("noKey")
+        if (e.key === key) {
+          console.log("pressed" + key )
+          let current = nav.currentSlideNo.value
+          if (slide == current) {
+            nav.go(previous[key])
+            previous[key] = undefined
+          } else {
+            previous[key] = current
+            nav.go(slide)
+          }
+        }
     }
+    onKeyToSlied('w', 4)
+    onKeyToSlied('e', 9)
   })
 })
 </script>
@@ -222,24 +226,25 @@ graph TD
         fetch_customer_details --> router
     end
     router -->|Alle andere GVOs| uncovered
-    router --> Kündigung
-    router --> Adressänderung
+    router --> fetch_customer_documents
+    router --> address_data_extract
     subgraph Core
         subgraph Kündigung
-            fetch_customer_documents{{"Abruf von Kundenspezifischen Dokumente"}}
-            termination_handled_by_llm[["Kündigung durch LLM behandeln lassen"]]
-            termination_handling{{"Eigentliche behandlung der Kündigung"}}
+            fetch_customer_documents{{"Kundenspezifischen Dokumente abrufen"}}
+            termination_handled_by_llm[["Kündigung durch LLM behandlen lassen (Entscheidung treffen + Antwort formulieren)"]]
             fetch_customer_documents --> termination_handled_by_llm
-            termination_handled_by_llm --> termination_handling
+            termination_handled_by_llm --> termination_actual_handling
+            termination_actual_handling{{"Wahre Behandlung der Kündigung bei Bedarf"}}
         end
-        termination_handling --> answer
 
         subgraph Adressänderung
             address_data_extract[["Auslesen von Adressdaten"]]
             address_change_execute{{"Ausführung der Adressänderung"}}
             address_data_extract --> address_change_execute
         end
+        termination_actual_handling --> answer
         address_change_execute --> answer
+        answer{{Antwort an Kunde}}
 
     end
     answer{{"Antwort an Kunde"}}
@@ -334,3 +339,65 @@ layout: two-cols-header
 - Kostet Geld
 
 (Man muss nicht 100% des Verkehrs durch die Evaluierung Pipeline durchführen lassen)
+
+
+---
+
+<style>
+/* Hack to make the big mermaid diagram scrollable */
+.slidev-layout {
+    overflow: scroll;
+}
+</style>
+
+# Beispielzeit
+
+```text
+Sehr geehrte Damen und Herren,
+
+hiermit kündige ich meine Lebensversicherung 
+mit der Vertragsnummer LV-123456 zum 31.12.2025.
+
+Mit freundlichen Grüßen
+
+Max Mustermann
+```
+
+1. Auslesen von Versicherungsnummer aus dem Text
+2. Abruf von Kundeninformationen durch API
+
+```json
+{
+    "insurance_number": "LV-123456",
+    "customer_inquiry": "Sehr geehrte ...",
+    "customer_information:": {
+        ...
+    }
+}
+```
+
+3. Router
+    - `Kündigung`
+
+4. Dokumentabrufe
+
+5. Kündigung durch LLM behandlen lassen
+```
+Aktion: Kündigung Durchführen
+```
+```text
+Sehr geehrter Herr Mustermann,
+
+vielen Dank für Ihre Nachricht. Wir bestätigen hiermit die Kündigung Ihrer 
+Lebensversicherung mit der Vertragsnummer LV-123456 zum 31.12.2025.
+
+Mit freundlichen Grüßen
+Ihr KI Assistent
+
+```
+
+
+6. Evaluierungen
+    - Richtige Entscheidung: ✅
+    - Stilistisch: ?
+
