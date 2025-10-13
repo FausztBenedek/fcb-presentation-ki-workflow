@@ -12,6 +12,7 @@ background: #f9f5f4
 # Wichtige Terminologie
 
 - Prompt
+- Context
 - LLM (Large Language Model)
 - Embeddings?
 - AI Agents?
@@ -19,33 +20,79 @@ background: #f9f5f4
 
 ---
 
+# Architektur
+
 <style>
 /* Hack to make the big mermaid diagram scrollable */
 .slidev-layout {
     overflow: scroll;
 }
-/* This part is repeated from the svg itself, because if I copy the svg in here, it breaks otherwise */
-.default polygon, .default rect {
-  fill: #283149 !important;
-  stroke: white !important;
-}
-.default p {
-  color: white !important;
-}
-.edgeLabel p {
-  background-color: #ffffff !important;
-}
-.cluster rect {
-      stroke: black;
-      fill: white !important;
-    }
 </style>
 
 <div>
-<Diagram />
+
+```mermaid
+
+graph TD
+    %% Explanations:
+    llm[[In diesem Box wird ein LLM angesprochen]]
+    api_call{{In diesem Box wird eine API angesprochen}}
+
+    __START__(Start)
+    __START__ --> Pre-process
+    subgraph Pre-process
+        customer_data_extract[["Auslesen von Versicherungsnummer aus dem Text"]]
+        fetch_customer_details{{"Abruf von Kundeninformationen durch API"}}
+        router[["Router"]]
+        customer_data_extract --> fetch_customer_details
+        fetch_customer_details --> router
+    end
+    router -->|Alle andere GVOs| uncovered
+    router --> Kündigung
+    router --> Adressänderung
+    subgraph Core
+        subgraph Kündigung
+            fetch_customer_documents{{"Abruf von Kundenspezifischen Dokumente"}}
+            termination_execute_prep[["Überprüfung, und Vorbereitung der Kündigung"]]
+            termination_handling{{"Behandlung der Kündigung"}}
+            fetch_customer_documents --> termination_execute_prep
+            termination_execute_prep --> termination_handling
+        end
+        termination_handling --> answer
+
+        subgraph Adressänderung
+            address_data_extract[["Auslesen von Adressdaten"]]
+            address_change_execute{{"Ausführung der Adressänderung"}}
+            address_data_extract --> address_change_execute
+        end
+        address_change_execute --> answer
+
+    end
+    answer{{"Antwort an Kunde"}}
+    todo_node("TODO: Wir haben noch nicht spezifiziert, was passieren soll?")
+    fetch_customer_details --> |"Kunde im System nicht gefunden"|todo_node
+    customer_data_extract --> |"Versicherungsnummer ist nicht in der Email"|todo_node
+    answer --> __END__
+    todo_node --> __END__
+    __END__(End)
+    uncovered("Nicht bearbeitbar") --> __END__;
+
+```
+
 </div>
 
 ---
+
+<style>
+.container {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+</style>
+
+<div class="container">
+<div>
 
 # Pre process
 
@@ -53,42 +100,22 @@ background: #f9f5f4
     - Was ist der Stand im Bestandsystem
     - Möglichst weitere Dokumente
 - Und so kommen wir auf folgende Pre process Flow
+</div>
+
+<div style="justify-self: center; display: flex; align-items: center;">
 
 ```mermaid
----
-config:
-  theme: 'base'
-  themeCSS: |
-    .default polygon, .default rect, .default g, .default path {
-      fill: #283149 !important;
-      stroke: white !important;
-    }
-    .default:hover polygon, .default:hover rect, .default:hover g, .default:hover path, .default p:hover {
-      fill: blue !important;
-      stroke: white !important;
-      cursor: pointer !important;
-    }
-    .default p {
-      color: white !important;
-    }
-    .edgeLabel p {
-      background-color: #ffffff !important;
-    }
-    .cluster rect {
-      stroke: black;
-      fill: white !important;
-    }
-
----
-
-graph LR
-  customer_data_extract[["Auslesen von Versicherungsnummer aus dem Text"]]
+graph TD
+  customer_data_extract[["Versicherungsnummer aus dem Text der Kundenanfrage auslesen"]]
   fetch_customer_details{{"Abruf von Kundeninformationen durch API"}}
   router[["Router"]]
   customer_data_extract --> fetch_customer_details
   fetch_customer_details --> router
 
 ```
+</div>
+</div>
+
 
 ---
 
@@ -112,38 +139,32 @@ Möglichkeiten:
 
 # Kündigung
 ```mermaid
----
-config:
-  theme: 'base'
-  themeCSS: |
-    .default polygon, .default rect, .default g, .default path {
-      fill: #283149 !important;
-      stroke: white !important;
-    }
-    .default:hover polygon, .default:hover rect, .default:hover g, .default:hover path, .default p:hover {
-      fill: blue !important;
-      stroke: white !important;
-      cursor: pointer !important;
-    }
-    .default p {
-      color: white !important;
-    }
-    .edgeLabel p {
-      background-color: #ffffff !important;
-    }
-    .cluster rect {
-      stroke: black;
-      fill: white !important;
-    }
-
----
-
 graph LR
-    fetch_customer_documents{{"Abruf von Kundenspezifischen Dokumente"}}
-    termination_execute_prep[["Überprüfung, und Vorbereitung der Kündigung"]]
+fetch_customer_documents{{"Kundenspezifischen Dokumente abrufen"}}
+termination_execute_prep[["Kündigung durch LLM behandlen lassen (Entscheidung treffen + Antwort formulieren)"]]
+fetch_customer_documents --> termination_execute_prep
+termination_execute_prep --> termination_execute
+termination_execute_prep --> termination_escalate_to_human
+termination_execute_prep --> termination_deny
+termination_execute_prep --> ask_for_more_information
+subgraph "Eigentliche Behandlung"
     termination_execute{{"Ausführung der Kündigung"}}
-    fetch_customer_documents --> |An diesem Punkt alle kundenspezifische Informationen sind vorhanden|termination_execute_prep
-    termination_execute_prep --> termination_execute
+    termination_escalate_to_human{{"Weiterleitung einem menschlichen Sachbearbeiter"}}
+    termination_deny("Ablehnung der Kündigung")
+    ask_for_more_information("Weite Informationen von der Kunde nötig")
+end 
+answer{{Antwort an Kunde}}
+termination_execute --> answer
+termination_deny --> answer
+termination_escalate_to_human --> |#quot;Ich habe es an einem menschlichen Mitarbeiter eskaliert #quot;|answer
+ask_for_more_information --> answer
 
 ```
+
+---
+
+# Addressveränderung
+
+- Es wird gerade daran gearbeitet
+
 

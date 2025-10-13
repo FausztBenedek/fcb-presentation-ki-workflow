@@ -1,5 +1,4 @@
 ---
-title: AI Workflow
 config:
   theme: 'base'
   themeVariables:
@@ -48,11 +47,11 @@ graph TD
         subgraph Kündigung
             fetch_customer_documents{{"Abruf von Kundenspezifischen Dokumente"}}
             termination_execute_prep[["Überprüfung, und Vorbereitung der Kündigung"]]
-            termination_execute{{"Ausführung der Kündigung"}}
+            termination_handling{{"Behandlung der Kündigung"}}
             fetch_customer_documents --> termination_execute_prep
-            termination_execute_prep --> termination_execute
+            termination_execute_prep --> termination_handling
         end
-        termination_execute --> answer
+        termination_handling --> answer
 
         subgraph Adressänderung
             address_data_extract[["Auslesen von Adressdaten"]]
