@@ -9,6 +9,12 @@ config:
       fill: #283149 !important;
       stroke: white !important;
     }
+    
+    .default:hover polygon, .default:hover rect, .default p:hover {
+      fill: blue !important;
+      stroke: white !important;
+      cursor: pointer !important;
+    }
     .default p {
       color: white !important;
     }
@@ -17,6 +23,7 @@ config:
     }
     .cluster rect {
       stroke: black;
+      fill: white !important;
     }
 
 ---
@@ -24,12 +31,12 @@ graph TD
     %% Explanations:
     llm[[In diesem Box wird ein LLM angesprochen]]
     api_call{{In diesem Box wird eine API angesprochen}}
-    class api_call api_call
 
     __START__(Start)
     __START__ --> Pre-process
     subgraph Pre-process
         customer_data_extract[["Auslesen von Versicherungsnummer"]]
+        class customer_data_extract customer_data_extract
         fetch_customer_details{{"Abruf von Kundeninformationen durch API"}}
         router[["Router"]]
         customer_data_extract --> fetch_customer_details
@@ -57,7 +64,7 @@ graph TD
 
     end
     answer{{"Antwort an Kunde"}}
-    todo_node("TODO: Wit haben noch nicht spezifiziert, was passieren soll?")
+    todo_node("TODO: Wir haben noch nicht spezifiziert, was passieren soll?")
     fetch_customer_details --> |"Kunde im System nicht gefunden"|todo_node
     customer_data_extract --> |"Versicherungsnummer ist nicht in der Email"|todo_node
     answer --> __END__

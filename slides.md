@@ -6,15 +6,33 @@ transition: slide-left
 background: #f9f5f4
 ---
 
+# Mögliche KI Workflows bei Versicherungen
+---
+
 <style>
 /* Hack to make the big mermaid diagram scrollable */
 .slidev-layout {
     overflow: scroll;
 }
+/* This part is repeated from the svg itself, because if I copy the svg in here, it breaks otherwise */
+.default polygon, .default rect {
+  fill: #283149 !important;
+  stroke: white !important;
+}
+.default p {
+  color: white !important;
+}
+.edgeLabel p {
+  background-color: #ffffff !important;
+}
+.cluster rect {
+      stroke: black;
+      fill: white !important;
+    }
 </style>
 
 <div>
-<img src="./public/diagram.svg" alt="triangle with all three sides equal" />
+<Diagram />
 </div>
 
 ---
