@@ -6,7 +6,33 @@ transition: slide-left
 background: #f9f5f4
 ---
 
-# Mögliche KI Workflows bei Versicherungen
+# KI Workflows bei Versicherungen
+<script setup>
+import { useNav } from '@slidev/client'
+import { onMounted } from 'vue'
+
+const nav = useNav()
+
+let previous = undefined
+
+onMounted(() => {
+  window.addEventListener('keydown', (e) => {
+    // Example: press Shift + S to go to slide 7
+    console.log("navigate")
+    if (e.key === 'e') {
+      let current = nav.currentSlideNo.value
+      if (3 == current) {
+        nav.go(previous)
+        previous = undefined
+      } else {
+        previous = current
+        nav.go(3)
+      }
+    }
+  })
+})
+</script>
+
 ---
 
 # Wichtige Terminologie
@@ -53,8 +79,8 @@ graph TD
     subgraph Core
         subgraph Kündigung
             fetch_customer_documents{{"Abruf von Kundenspezifischen Dokumente"}}
-            termination_execute_prep[["Überprüfung, und Vorbereitung der Kündigung"]]
-            termination_handling{{"Behandlung der Kündigung"}}
+            termination_execute_prep[["Kündigung durch LLM behandeln lassen"]]
+            termination_handling{{"Eigentliche behandlung der Kündigung"}}
             fetch_customer_documents --> termination_execute_prep
             termination_execute_prep --> termination_handling
         end
@@ -166,5 +192,3 @@ ask_for_more_information --> answer
 # Addressveränderung
 
 - Es wird gerade daran gearbeitet
-
-
