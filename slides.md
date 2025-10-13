@@ -60,6 +60,142 @@ onMounted(() => {
 
 # Architektur
 
+
+```mermaid
+
+graph LR
+
+    __START__(Start)
+    __START__ --> pre_process
+    pre_process("Entscheidung um welche GeVo die Kundenanfrage sich handelt")
+    pre_process -->|Alle andere GVOs| uncovered
+    pre_process --> termination
+    pre_process --> address_change
+    pre_process --> other
+    subgraph Core
+        termination("Kündigung")
+        termination --> answer
+
+        address_change("Addressveränderung")
+        address_change --> answer
+
+        other("...")
+        other --> answer
+
+    end
+    answer{{"Antwort an Kunde"}}
+    answer --> __END__
+    __END__(Ende)
+    uncovered("Nicht bearbeitbar") --> __END__;
+
+```
+
+
+
+---
+
+<style>
+.container {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+</style>
+
+<div class="container">
+<div>
+
+# Pre process
+
+- Um GeVo bearbeiten zu können brauchen wir folgende Informationen:
+    - Was ist der Stand im Bestandsystem
+    - Möglichst weitere Dokumente
+- Und so kommen wir auf folgende Pre process Flow
+
+
+```text
+Sehr geehrte Damen und Herren,
+
+hiermit kündige ich meine Lebensversicherung 
+mit der Vertragsnummer LV-123456 zum 31.12.2025.
+
+Mit freundlichen Grüßen
+
+Max Mustermann
+```
+
+
+</div>
+
+<div style="justify-self: center; display: flex; align-items: center;">
+
+```mermaid
+graph TD
+  customer_data_extract[["Versicherungsnummer aus dem Text der Kundenanfrage auslesen"]]
+  fetch_customer_details{{"Abruf von Kundeninformationen durch API"}}
+  router[["Router"]]
+  customer_data_extract --> fetch_customer_details
+  fetch_customer_details --> router
+
+```
+</div>
+</div>
+
+
+---
+
+# Router
+
+- Entscheidet zwischen GeVos mithilfe einer LLM
+- Promt sieht so aus (Natürlich komplizierter):
+
+```markdown
+Welchem GeVo gehört folgende Kundenanfrage?
+
+{Kundenanfrage einfach in dem Prompt kopiert}
+
+Möglichkeiten:
+- Addressveränderung
+- Kündigung
+- Ich kann es noch nicht
+```
+
+---
+
+# Kündigung
+```mermaid
+graph LR
+fetch_customer_documents{{"Kundenspezifischen Dokumente abrufen"}}
+termination_handled_by_llm[["Kündigung durch LLM behandlen lassen (Entscheidung treffen + Antwort formulieren)"]]
+fetch_customer_documents --> termination_handled_by_llm
+termination_handled_by_llm --> termination_execute
+termination_handled_by_llm --> termination_escalate_to_human
+termination_handled_by_llm --> termination_deny
+termination_handled_by_llm --> ask_for_more_information
+subgraph "Eigentliche Behandlung"
+    termination_execute{{"Ausführung der Kündigung"}}
+    termination_escalate_to_human{{"Weiterleitung einem menschlichen Sachbearbeiter"}}
+    termination_deny("Ablehnung der Kündigung")
+    ask_for_more_information("Weite Informationen von der Kunde nötig")
+end 
+answer{{Antwort an Kunde}}
+termination_execute --> answer
+termination_deny --> answer
+termination_escalate_to_human --> |#quot;Ich habe es an einem menschlichen Mitarbeiter eskaliert #quot;|answer
+ask_for_more_information --> answer
+
+```
+
+---
+
+# Addressveränderung
+
+- Es wird gerade daran gearbeitet
+
+---
+
+# Architektur
+
 <style>
 /* Hack to make the big mermaid diagram scrollable */
 .slidev-layout {
@@ -118,92 +254,6 @@ graph TD
 ```
 
 </div>
-
----
-
-<style>
-.container {
-    height: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-}
-</style>
-
-<div class="container">
-<div>
-
-# Pre process
-
-- Um GeVo bearbeiten zu können brauchen wir folgende Informationen:
-    - Was ist der Stand im Bestandsystem
-    - Möglichst weitere Dokumente
-- Und so kommen wir auf folgende Pre process Flow
-</div>
-
-<div style="justify-self: center; display: flex; align-items: center;">
-
-```mermaid
-graph TD
-  customer_data_extract[["Versicherungsnummer aus dem Text der Kundenanfrage auslesen"]]
-  fetch_customer_details{{"Abruf von Kundeninformationen durch API"}}
-  router[["Router"]]
-  customer_data_extract --> fetch_customer_details
-  fetch_customer_details --> router
-
-```
-</div>
-</div>
-
-
----
-
-# Router
-
-- Entscheidet zwischen GeVos mithilfe einer LLM
-- Promt sieht so aus (Natürlich komplizierter):
-
-```markdown
-Welchem GeVo gehört volgendem Kundenanfrage?
-
-{Kundenanfrage einfach in dem Prompt kopiert}
-
-Möglichkeiten:
-- Addressveränderung
-- Kündigung
-- Ich kann es noch nicht
-```
-
----
-
-# Kündigung
-```mermaid
-graph LR
-fetch_customer_documents{{"Kundenspezifischen Dokumente abrufen"}}
-termination_handled_by_llm[["Kündigung durch LLM behandlen lassen (Entscheidung treffen + Antwort formulieren)"]]
-fetch_customer_documents --> termination_handled_by_llm
-termination_handled_by_llm --> termination_execute
-termination_handled_by_llm --> termination_escalate_to_human
-termination_handled_by_llm --> termination_deny
-termination_handled_by_llm --> ask_for_more_information
-subgraph "Eigentliche Behandlung"
-    termination_execute{{"Ausführung der Kündigung"}}
-    termination_escalate_to_human{{"Weiterleitung einem menschlichen Sachbearbeiter"}}
-    termination_deny("Ablehnung der Kündigung")
-    ask_for_more_information("Weite Informationen von der Kunde nötig")
-end 
-answer{{Antwort an Kunde}}
-termination_execute --> answer
-termination_deny --> answer
-termination_escalate_to_human --> |#quot;Ich habe es an einem menschlichen Mitarbeiter eskaliert #quot;|answer
-ask_for_more_information --> answer
-
-```
-
----
-
-# Addressveränderung
-
-- Es wird gerade daran gearbeitet
 
 ---
 layout: center
