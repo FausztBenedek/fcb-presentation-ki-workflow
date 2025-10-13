@@ -21,17 +21,29 @@ onMounted(() => {
     console.log("navigate")
     if (e.key === 'e') {
       let current = nav.currentSlideNo.value
-      if (3 == current) {
+      if (4 == current) {
         nav.go(previous)
         previous = undefined
       } else {
         previous = current
-        nav.go(3)
+        nav.go(4)
       }
     }
   })
 })
 </script>
+
+
+---
+
+<div style="height: 100%;">
+
+# Wenn ihr mit dem Handy folgen wollt
+
+## https://fausztbenedek.github.io/fcb-presentation-ki-workflow
+<img src="./public/qrcode.svg" style="height: 90%; margin: auto;"/>
+</div>
+
 
 ---
 
@@ -79,10 +91,10 @@ graph TD
     subgraph Core
         subgraph Kündigung
             fetch_customer_documents{{"Abruf von Kundenspezifischen Dokumente"}}
-            termination_execute_prep[["Kündigung durch LLM behandeln lassen"]]
+            termination_handled_by_llm[["Kündigung durch LLM behandeln lassen"]]
             termination_handling{{"Eigentliche behandlung der Kündigung"}}
-            fetch_customer_documents --> termination_execute_prep
-            termination_execute_prep --> termination_handling
+            fetch_customer_documents --> termination_handled_by_llm
+            termination_handled_by_llm --> termination_handling
         end
         termination_handling --> answer
 
@@ -100,7 +112,7 @@ graph TD
     customer_data_extract --> |"Versicherungsnummer ist nicht in der Email"|todo_node
     answer --> __END__
     todo_node --> __END__
-    __END__(End)
+    __END__(Ende)
     uncovered("Nicht bearbeitbar") --> __END__;
 
 ```
@@ -167,12 +179,12 @@ Möglichkeiten:
 ```mermaid
 graph LR
 fetch_customer_documents{{"Kundenspezifischen Dokumente abrufen"}}
-termination_execute_prep[["Kündigung durch LLM behandlen lassen (Entscheidung treffen + Antwort formulieren)"]]
-fetch_customer_documents --> termination_execute_prep
-termination_execute_prep --> termination_execute
-termination_execute_prep --> termination_escalate_to_human
-termination_execute_prep --> termination_deny
-termination_execute_prep --> ask_for_more_information
+termination_handled_by_llm[["Kündigung durch LLM behandlen lassen (Entscheidung treffen + Antwort formulieren)"]]
+fetch_customer_documents --> termination_handled_by_llm
+termination_handled_by_llm --> termination_execute
+termination_handled_by_llm --> termination_escalate_to_human
+termination_handled_by_llm --> termination_deny
+termination_handled_by_llm --> ask_for_more_information
 subgraph "Eigentliche Behandlung"
     termination_execute{{"Ausführung der Kündigung"}}
     termination_escalate_to_human{{"Weiterleitung einem menschlichen Sachbearbeiter"}}
@@ -192,3 +204,83 @@ ask_for_more_information --> answer
 # Addressveränderung
 
 - Es wird gerade daran gearbeitet
+
+---
+layout: center
+---
+
+# Pheww
+
+---
+
+<style>
+.evaluations-container {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    height: 100%;
+}
+</style>
+
+<div class="evaluations-container">
+<div>
+
+# Evaluierungen
+
+
+- = Testen wie das KI leistet
+
+<div v-click="1">
+
+- Bislang haben wir nur für die Kündigung Evaluierungen
+</div>
+</div>
+
+<div v-click="1">
+
+```mermaid
+graph LR
+
+termination_handled_by_llm[["Kündigung durch LLM behandlen lassen (Entscheidung treffen + Antwort formulieren)"]]
+termination_handled_by_llm --> Evaluierungen
+subgraph Evaluierungen
+direction LR
+    right_decision[["Wurde die Richtige Entscheidung getroffen?"]]
+    answer_conciseness[["Ist die Antwort stilistisch korrekt?"]]
+    other("...")
+end
+termination_handling{{"Eigentliche behandlung der Kündigung"}}
+Evaluierungen --> termination_handling
+```
+
+</div>
+</div>
+
+---
+layout: two-cols-header
+---
+
+# Evaluierungen
+
+(Es gibt menschliche und LLM basierte Evaluierungen)
+
+::left::
+
+## Platz
+
+- Können / Sollen irgendwo im System sein
+    - Nach dem Router, um zu evaluieren, ob der Router die Richtige Entscheidung getroffen hat
+    - Nach dem die Antwort an der Kunde versendet wurde (= Monitoring)
+
+::right::
+
+## Nützlichkeit
+
+- Hilfe bei Fehlersuche
+- Monitoring beim Update
+
+## Nachteile
+
+- Kostet Geld
+
+(Man muss nicht 100% des Verkehrs durch die Evaluierung Pipeline durchführen lassen)
