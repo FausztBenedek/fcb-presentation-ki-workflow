@@ -352,6 +352,15 @@ layout: two-cols-header
 
 # Beispielzeit
 
+<table>
+
+<tr v-click>
+<td>
+1. Auslesen von Versicherungsnummer aus dem Text
+</td>
+
+<td>
+
 ```text
 Sehr geehrte Damen und Herren,
 
@@ -362,9 +371,17 @@ Mit freundlichen Grüßen
 
 Max Mustermann
 ```
+</td>
+</tr>
+<tr v-click>
 
-1. Auslesen von Versicherungsnummer aus dem Text
+
+<td>
+
 2. Abruf von Kundeninformationen durch API
+</td>
+
+<td>
 
 ```json
 {
@@ -375,13 +392,34 @@ Max Mustermann
     }
 }
 ```
+</td>
+
+</tr>
+
+<tr v-click>
+
+<td>
 
 3. Router
-    - `Kündigung`
+</td>
+<td>
 
+`Kündigung`
+</td>
+</tr>
+
+<tr v-click>
+<td>
 4. Dokumentabrufe
+</td>
+</tr>
 
-5. Kündigung durch LLM behandlen lassen
+<tr v-click>
+<td>
+    5. Kündigung durch LLM behandlen lassen
+</td>
+<td>
+
 ```
 Aktion: Kündigung Durchführen
 ```
@@ -395,9 +433,19 @@ Mit freundlichen Grüßen
 Ihr KI Assistent
 
 ```
+</td>
+</tr>
 
 
+<tr v-click>
+<td>
 6. Evaluierungen
-    - Richtige Entscheidung: ✅
-    - Stilistisch: ?
+</td>
+<td>
 
+- Richtige Entscheidung: ✅
+- Stilistisch: 🚫
+</td>
+</tr>
+
+</table>
