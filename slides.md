@@ -596,3 +596,113 @@ Ihr KI Assistent
 
 </table>
 
+---
+layout: center
+---
+
+# Expert Terminologie
+
+---
+
+# Tool calling
+
+<table>
+<tr>
+<td> 
+
+```mermaid
+block
+  columns 3
+  label_system_prompt{{"system prompt"}}
+
+  system_prompt("Du bist ein Assistent")
+  tools("Zugang zum Kalender")
+
+  label_user_prompt{{"user prompt"}}
+  user_prompt("Finde eine\nfreie Stunde nächste\nWoche für mich."):2
+
+  label_tool_call_request{{"Tool call KI Antwort"}}
+  tool_call_request("tool_name: 'Kalender',\nparameters: {...}"):2
+```
+
+</td>
+<td v-click> 
+
+
+```mermaid
+block
+  columns 3
+  label_system_prompt{{"system prompt"}}
+
+  system_prompt("Du bist ein Assistent")
+  tools("Zugang zum Kalender")
+
+  label_user_prompt{{"user prompt"}}
+  user_prompt("Finde eine\nfreie Stunde nächste\nWoche für mich."):2
+
+  label_tool_call_request{{"Tool call KI Antwort"}}
+  tool_call_request("tool_name: 'Kalender',\nparameters: {...}"):2
+
+  label_tool_response{{"Tool Message"}}
+  tool_response("tool_response: \n'2025-10-22 9:00 - 10:00'"):2
+
+  label_ki_response{{"KI Antwort"}}
+  ki_response("Ich habe dir nächste\nWoche Mittwoch zwischen\n9:00 - 10:00 eine\nfreie Stunde gefunden."):2
+```
+
+</td>
+</tr>
+</table>
+
+---
+
+<style>
+.agents .mermaid {
+
+    display: flex;
+    justify-content: center;
+}
+</style>
+
+<div class="agents">
+
+# KI Agenten
+
+```mermaid
+block
+    columns 2
+    a("Kann eine Aktion ausführen")
+    b("Kann Gespräche speichern")
+    c("Plant selber \n(Entscheidet welche Aktion zu machen)")
+    d("Kann Profil vom User halten\n(anhand alte / andere Gespräche)")
+```
+</div>
+
+---
+
+# ChatGPT searching the web
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant ChatGPT
+    participant LLM
+    participant Google
+    User->>ChatGPT: Was ist das leckerste Essen der Welt?
+    ChatGPT->>LLM: Was ist das leckerste Essen der Welt?
+    LLM-->>ChatGPT: Google: leckerste Essen
+    ChatGPT->>Google: Google: leckerste Essen
+    Google-->>ChatGPT: Ungarische Lecsó
+    ChatGPT->>LLM: Was ist das leckerste Essen der Welt? -- Tool Call gefragt -- Google search-result: Ungarische Lecsó
+    LLM-->>ChatGPT: Ungarische Lecsó ist das leckerste
+    ChatGPT-->>User: Ungarische Lecsó ist das leckerste
+
+```
+
+
+---
+
+# KI Workflows
+
+- Umgangsprachlich Agente und Workflows sind gleich.
+- Welche Aktion ausgeführt wird, entscheidet die App, nicht das LLM.
