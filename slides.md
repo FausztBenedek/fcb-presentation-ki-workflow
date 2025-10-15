@@ -5,7 +5,6 @@ title: FCB - KI Workflow
 transition: slide-left
 background: #f9f5f4
 layout: center
-
 ---
 
 # KI Workflows bei Versicherungen
