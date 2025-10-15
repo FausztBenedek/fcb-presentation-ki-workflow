@@ -4,6 +4,8 @@ favicon: https://www.fcb-solutions.de/wp-content/uploads/2022/06/cropped-Logo_Bl
 title: FCB - KI Workflow
 transition: slide-left
 background: #f9f5f4
+layout: center
+
 ---
 
 # KI Workflows bei Versicherungen
@@ -65,7 +67,7 @@ layout: center
 ---
 
 <style>
-.slidev-layout {
+.slidev-page-5 .slidev-layout {
     display: flex;
     flex-flow: column;
 }
@@ -706,3 +708,100 @@ sequenceDiagram
 
 - Umgangsprachlich Agente und Workflows sind gleich.
 - Welche Aktion ausgeführt wird, entscheidet die App, nicht das LLM.
+
+
+--- 
+
+<style>
+.bracket-column {
+  display: inline-block;
+  position: relative;
+  padding: 1em 2em;
+  font-size: 1.2em;
+}
+.bracket-column::before,
+.bracket-column::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 10px;
+  border: 4px solid currentColor;
+}
+.bracket-column::before {
+  left: 0;
+  border-right: none;
+  border-radius: 20px 0 0 20px;
+}
+.bracket-column::after {
+  right: 0;
+  border-left: none;
+  border-radius: 0 20px 20px 0;
+}
+</style>
+
+# RAG
+
+- Wir wollen Dokumente in dem Prompt inkludieren.
+
+- Problem: Wir haben mehr Information als es in dem Context Window passt.
+
+- Lösung: Lass uns mit Embeddings filtern. (Vektor Datenbank)
+
+---
+
+# So funktionieren Embeddings
+
+<div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
+
+```python
+embeddings("Irgendein text")
+```
+
+<span> = </span>
+
+<span style="display: flex" class="bracket-column">
+    <div style="display: flex; flex-flow: column; align-items: center;">
+        <span>3.73303257e-02</span>  
+        <span>5.11617884e-02</span> 
+        <span>-3.06054106e-04</span>  
+        <span>6.02098815e-02</span>
+        <span>-1.17494367e-01</span> 
+        <span>...</span> 
+        <span>384 Zahlen</span> 
+    </div>
+</span>
+</div>
+
+- Sie sollen irgendwie die Bedeuting encodieren.
+- Die Vektore die näher sind, sind eher relevant.
+- Wir können den cos vom Winkel zwischen zwei Embedding Vektor schnell kalkulieren.
+
+
+---
+
+# RAG
+(Retrieval-augmented generation)
+
+<div style="padding-bottom: 50px;">
+
+```mermaid
+graph LR
+    user_query("Embedding von User Query")
+    d1("Embedding von Dokument 1") <--> |cos Winkel Vergleich|user_query
+    d2("Embedding von Dokument 2") <--> |cos Winkel Vergleich|user_query
+    d_other("...") <--> |cos Winkel Vergleich|user_query
+```
+
+</div>
+
+- So können wir das relevanteste Dokument finden
+- "A" steht für potentiell den Inhalt von den Dokumenten verändern
+
+
+---
+layout: center
+---
+
+# Danke für die Aufmerksamkeit
+(Habt ihr Fragen)
