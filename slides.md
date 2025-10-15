@@ -7,7 +7,7 @@ background: #f9f5f4
 layout: center
 ---
 
-# KI Workflows bei Versicherungen
+# KI-Workflows bei Versicherungen
 <script setup>
 import { useNav } from '@slidev/client'
 import { onMounted } from 'vue'
@@ -37,14 +37,12 @@ onMounted(() => {
   })
 })
 </script>
-
-
 --- 
 
-# Ziel dieser Preäsentation
+# Ziel dieser Präsentation
 
-- Einleitung in die Begriffe im KI Umfeld
-- Zeigen die KI Lösung, die wir bei FCB zum Markt bringen wollen
+- Einführung in die Begriffe im KI-Umfeld
+- Vorstellung der KI-Lösung, die wir bei FCB auf den Markt bringen wollen
 
 ---
 
@@ -84,13 +82,13 @@ backgroundSize: contain
 
 # Prompt
 
-- Prompts sind Eingaben oder Anweisungen, die an ein Large Language Model (LLM) übermittelt werden
+- Prompts sind Eingaben oder Anweisungen, die an ein Large Language Model (LLM) übermittelt werden.
 
 ---
 
-# System prompt
+# System Prompt
 
-- Vor unseren Anfragen an ChatGPT versteckt sich eine Beschreibung, die angibt, wie das LLM sich benimmt.
+- Hinter unseren Anfragen an ChatGPT verbirgt sich eine Beschreibung, die festlegt, wie sich das LLM verhalten soll.
 
 <table>
 <tr v-click="2">
@@ -164,45 +162,44 @@ z.B. dem Goulash Disznókö.
 
 ---
 
-# Context window (Kontextfenster)
+# Context Window (Kontextfenster)
 
-- Die maximale Größe vom Prompt.
+- Die maximale Größe des Prompts.
 
 <table>
 <tr>
-    <th><b>LLM</b></th> <th><b>Context window (in tokens)</b></th>
+    <th><b>LLM</b></th> <th><b>Context Window (in Tokens)</b></th>
 </tr>
 <tr>
     <td>Llama 4 Scout</td> <td>10 Millionen</td>
 </tr>
 <tr>
-    <td>GPT 5</td> <td>400 Tausend</td>
+    <td>GPT 5</td> <td>400 000</td>
 </tr>
 <tr>
-    <td>GPT OSS 20B</td><td>131 Tausend</td>
+    <td>GPT OSS 20B</td><td>131 000</td>
 </tr>
 </table>
-
 
 ---
 
 # Temperature
 
-- Je höher, umso wahrscheinlicher ist der LLM die Tokens (Wörter) zu wählen, die nicht höchstwahrscheinlich sind.
+- Je höher der Wert, desto wahrscheinlicher ist es, dass das LLM Tokens (Wörter) wählt, die nicht am wahrscheinlichsten sind.
     - 0: immer das wahrscheinlichste
-    - 1: maximumwert
+    - 1: Maximumwert
 
 <br />
 
-# KI Agente und KI Workflows
+# KI-Agenten und KI-Workflows
 
-- Dazu kommen wir noch am Ende
+- Dazu kommen wir noch am Ende.
 
 ---
 layout: center
 ---
 
-# Was hier bei FCB gebaut wird?
+# Was wird hier, bei FCB gebaut?
 
 ---
 
@@ -215,8 +212,8 @@ graph LR
 
     __START__(Start)
     __START__ --> pre_process
-    pre_process("Entscheidung um welche GeVo die Kundenanfrage sich handelt")
-    pre_process -->|Alle andere GVOs| uncovered
+    pre_process("Entscheidung, um welche GeVo es sich bei der Kundenanfrage handelt")
+    pre_process -->|Alle anderen GeVos| uncovered
     pre_process --> termination
     pre_process --> address_change
     pre_process --> other
@@ -224,21 +221,19 @@ graph LR
         termination("Kündigung")
         termination --> answer
 
-        address_change("Addressveränderung")
+        address_change("Adressänderung")
         address_change --> answer
 
         other("...")
         other --> answer
 
     end
-    answer{{"Antwort an Kunde"}}
+    answer{{"Antwort an den Kunden"}}
     answer --> __END__
     __END__(Ende)
     uncovered("Nicht bearbeitbar") --> __END__;
 
 ```
-
-
 
 ---
 
@@ -253,12 +248,12 @@ graph LR
 <div class="container">
 <div>
 
-# Pre process
+# Pre-Process
 
-- Um GeVo bearbeiten zu können brauchen wir folgende Informationen:
-    - Was ist der Stand im Bestandsystem
-    - Möglichst weitere Dokumente
-- Und so kommen wir auf folgende Pre process Flow
+- Um eine GeVo bearbeiten zu können, brauchen wir folgende Informationen:
+    - Was ist der Stand im Bestandsystem?
+    - Möglicherweise weitere Dokumente
+- Daraus ergibt sich folgender Pre-Process-Flow
 
 
 ```text
@@ -280,32 +275,30 @@ Max Mustermann
 ```mermaid
 graph TD
   customer_data_extract[["Versicherungsnummer aus dem Text der Kundenanfrage auslesen"]]
-  fetch_customer_details{{"Abruf von Kundeninformationen durch API"}}
+  fetch_customer_details{{"Abruf von Kundeninformationen über API"}}
   router[["Router"]]
   customer_data_extract --> fetch_customer_details
   fetch_customer_details --> router
-
 ```
 </div>
 </div>
-
 
 ---
 
 # Router
 
-- Entscheidet zwischen GeVos mithilfe einer LLM
-- Promt sieht so aus (Natürlich komplizierter):
+- Entscheidet mithilfe eines LLMs zwischen den GeVos.
+- Prompt sieht so aus (in Wirklichkeit natürlich komplexer):
 
 ```markdown
-Welchem GeVo gehört folgende Kundenanfrage?
+Welcher GeVo entspricht der folgenden Kundenanfrage?
 
-{Kundenanfrage einfach in dem Prompt kopiert}
+{Kundenanfrage wird hier in den Prompt eingefügt}
 
 Möglichkeiten:
-- Addressveränderung
+- Adressänderung
 - Kündigung
-- Ich kann es noch nicht
+- Ich kann es nicht bestimmen
 ```
 
 ---
@@ -313,8 +306,8 @@ Möglichkeiten:
 # Kündigung
 ```mermaid
 graph LR
-fetch_customer_documents{{"Kundenspezifischen Dokumente abrufen"}}
-termination_handled_by_llm[["Kündigung durch LLM behandlen lassen (Entscheidung treffen + Antwort formulieren)"]]
+fetch_customer_documents{{"Kundenspezifische Dokumente abrufen"}}
+termination_handled_by_llm[["Kündigung durch LLM behandeln lassen (Entscheidung treffen + Antwort formulieren)"]]
 fetch_customer_documents --> termination_handled_by_llm
 termination_handled_by_llm --> termination_execute
 termination_handled_by_llm --> termination_escalate_to_human
@@ -322,23 +315,22 @@ termination_handled_by_llm --> termination_deny
 termination_handled_by_llm --> ask_for_more_information
 subgraph "Eigentliche Behandlung"
     termination_execute{{"Ausführung der Kündigung"}}
-    termination_escalate_to_human{{"Weiterleitung einem menschlichen Sachbearbeiter"}}
+    termination_escalate_to_human{{"Weiterleitung an einen menschlichen Sachbearbeiter"}}
     termination_deny("Ablehnung der Kündigung")
-    ask_for_more_information("Weite Informationen von der Kunde nötig")
+    ask_for_more_information("Weitere Informationen vom Kunden erforderlich")
 end 
-answer{{Antwort an Kunde}}
+answer{{Antwort an den Kunden}}
 termination_execute --> answer
 termination_deny --> answer
-termination_escalate_to_human --> |#quot;Ich habe es an einem menschlichen Mitarbeiter eskaliert #quot;|answer
+termination_escalate_to_human --> |#quot;Ich habe es an einen menschlichen Mitarbeiter eskaliert.#quot;|answer
 ask_for_more_information --> answer
-
 ```
 
 ---
 
-# Addressveränderung
+# Adressänderung
 
-- Es wird gerade daran gearbeitet
+- Wird derzeit entwickelt.
 
 ---
 
@@ -356,29 +348,28 @@ ask_for_more_information --> answer
 ```mermaid
 
 graph TD
-    %% Explanations:
-    llm[[In diesem Box wird ein LLM angesprochen]]
-    api_call{{In diesem Box wird eine API angesprochen}}
+    llm[[In diesem Block wird ein LLM angesprochen]]
+    api_call{{In diesem Block wird eine API angesprochen}}
 
     __START__(Start)
     __START__ --> Pre-process
     subgraph Pre-process
-        customer_data_extract[["Auslesen von Versicherungsnummer aus dem Text"]]
-        fetch_customer_details{{"Abruf von Kundeninformationen durch API"}}
+        customer_data_extract[["Auslesen der Versicherungsnummer aus dem Text"]]
+        fetch_customer_details{{"Abruf von Kundeninformationen über API"}}
         router[["Router"]]
         customer_data_extract --> fetch_customer_details
         fetch_customer_details --> router
     end
-    router -->|Alle andere GVOs| uncovered
+    router -->|Alle anderen GeVos| uncovered
     router --> fetch_customer_documents
     router --> address_data_extract
     subgraph Core
         subgraph Kündigung
-            fetch_customer_documents{{"Kundenspezifischen Dokumente abrufen"}}
-            termination_handled_by_llm[["Kündigung durch LLM behandlen lassen (Entscheidung treffen + Antwort formulieren)"]]
+            fetch_customer_documents{{"Kundenspezifische Dokumente abrufen"}}
+            termination_handled_by_llm[["Kündigung durch LLM behandeln lassen (Entscheidung treffen + Antwort formulieren)"]]
             fetch_customer_documents --> termination_handled_by_llm
             termination_handled_by_llm --> termination_actual_handling
-            termination_actual_handling{{"Wahre Behandlung der Kündigung bei Bedarf"}}
+            termination_actual_handling{{"Tatsächliche Durchführung der Kündigung bei Bedarf"}}
         end
 
         subgraph Adressänderung
@@ -388,13 +379,13 @@ graph TD
         end
         termination_actual_handling --> answer
         address_change_execute --> answer
-        answer{{Antwort an Kunde}}
+        answer{{Antwort an den Kunden}}
 
     end
-    answer{{"Antwort an Kunde"}}
-    todo_node("TODO: Wir haben noch nicht spezifiziert, was passieren soll?")
+    answer{{"Antwort an den Kunden"}}
+    todo_node("TODO: Wir haben noch nicht spezifiziert, was passieren soll")
     fetch_customer_details --> |"Kunde im System nicht gefunden"|todo_node
-    customer_data_extract --> |"Versicherungsnummer ist nicht in der Email"|todo_node
+    customer_data_extract --> |"Versicherungsnummer nicht in der E-Mail gefunden"|todo_node
     answer --> __END__
     todo_node --> __END__
     __END__(Ende)
@@ -421,11 +412,11 @@ graph TD
 # Evaluierungen
 
 
-- = Testen wie das KI leistet
+- = Testen, wie gut die KI funktioniert
 
 <div v-click="1">
 
-- Bislang haben wir nur für die Kündigung Evaluierungen
+- Bisher haben wir nur für die Kündigung Evaluierungen.
 </div>
 </div>
 
@@ -434,15 +425,15 @@ graph TD
 ```mermaid
 graph LR
 
-termination_handled_by_llm[["Kündigung durch LLM behandlen lassen (Entscheidung treffen + Antwort formulieren)"]]
+termination_handled_by_llm[["Kündigung durch LLM behandeln lassen (Entscheidung treffen + Antwort formulieren)"]]
 termination_handled_by_llm --> Evaluierungen
 subgraph Evaluierungen
 direction LR
-    right_decision[["Wurde die Richtige Entscheidung getroffen?"]]
+    right_decision[["Wurde die richtige Entscheidung getroffen?"]]
     answer_conciseness[["Ist die Antwort stilistisch korrekt?"]]
     other("...")
 end
-termination_handling{{"Eigentliche behandlung der Kündigung"}}
+termination_handling{{"Tatsächliche Behandlung der Kündigung"}}
 Evaluierungen --> termination_handling
 ```
 
@@ -455,28 +446,28 @@ layout: two-cols-header
 
 # Evaluierungen
 
-(Es gibt menschliche und LLM basierte Evaluierungen)
+(Es gibt menschliche und LLM-basierte Evaluierungen)
 
 ::left::
 
-## Platz
+## Ort im System
 
-- Können / Sollen irgendwo im System sein
-    - Nach dem Router, um zu evaluieren, ob der Router die Richtige Entscheidung getroffen hat
-    - Nach dem die Antwort an der Kunde versendet wurde (= Monitoring)
+- Können bzw. sollen an verschiedenen Stellen im System stattfinden:
+    - Nach dem Router, um zu prüfen, ob die richtige Entscheidung getroffen wurde
+    - Nachdem die Antwort an den Kunden gesendet wurde (= Monitoring)
 
 ::right::
 
-## Nützlichkeit
+## Nutzen
 
-- Hilfe bei Fehlersuche
-- Monitoring beim Update
+- Hilfreich bei der Fehlersuche
+- Monitoring bei Updates
 
 ## Nachteile
 
-- Kostet Geld
+- Verursacht Kosten
 
-(Man muss nicht 100% des Verkehrs durch die Evaluierung Pipeline durchführen lassen)
+(Es ist nicht notwendig, 100 % des Datenverkehrs durch die Evaluierungspipeline laufen zu lassen.)
 
 
 ---
@@ -488,12 +479,12 @@ layout: two-cols-header
 }
 </style>
 
-# Beispielzeit
+# Beispielablauf
 
 <table>
 <tr>
 <td>
-0. Kundenanfrage kommt an
+0. Kundenanfrage geht ein
 </td>
 
 <td>
@@ -512,7 +503,7 @@ Max Mustermann
 </tr>
 <tr>
 <td>
-1. Auslesen von Versicherungsnummer aus dem Text
+1. Auslesen der Versicherungsnummer aus dem Text
 </td>
 
 <td>
@@ -525,7 +516,7 @@ Max Mustermann
 
 <td>
 
-2. Abruf von Kundeninformationen durch API
+2. Abruf von Kundeninformationen über API
 </td>
 
 <td>
@@ -534,7 +525,7 @@ Max Mustermann
 {
     "insurance_number": "LV-123456",
     "customer_inquiry": "Sehr geehrte ...",
-    "customer_information:": {
+    "customer_information": {
         ...
     }
 }
@@ -557,18 +548,18 @@ Max Mustermann
 
 <tr>
 <td>
-4. Dokumentabrufe
+4. Dokumentenabruf
 </td>
 </tr>
 
 <tr>
 <td>
-    5. Kündigung durch LLM behandlen lassen
+5. Kündigung durch LLM behandeln lassen
 </td>
 <td>
 
 ```
-Aktion: Kündigung Durchführen
+Aktion: Kündigung durchführen
 ```
 ```text
 Sehr geehrter Herr Mustermann,
@@ -576,9 +567,8 @@ Sehr geehrter Herr Mustermann,
 vielen Dank für Ihre Nachricht. Wir bestätigen hiermit die Kündigung Ihrer 
 Lebensversicherung mit der Vertragsnummer LV-123456 zum 31.12.2025.
 
-Mit freundlichen Grüßen
-Ihr KI Assistent
-
+Mit freundlichen Grüßen  
+Ihr KI-Assistent
 ```
 </td>
 </tr>
@@ -591,7 +581,7 @@ Ihr KI Assistent
 <td>
 
 - Richtige Entscheidung: ✅
-- Stilistisch: 🚫
+- Stilistisch korrekt: 🚫
 </td>
 </tr>
 
@@ -601,7 +591,7 @@ Ihr KI Assistent
 layout: center
 ---
 
-# Expert Terminologie
+# Expertenterminologie
 
 ---
 
@@ -614,15 +604,15 @@ layout: center
 ```mermaid
 block
   columns 3
-  label_system_prompt{{"system prompt"}}
+  label_system_prompt{{"System prompt"}}
 
   system_prompt("Du bist ein Assistent")
   tools("Zugang zum Kalender")
 
-  label_user_prompt{{"user prompt"}}
+  label_user_prompt{{"User prompt"}}
   user_prompt("Finde eine\nfreie Stunde nächste\nWoche für mich."):2
 
-  label_tool_call_request{{"Tool call KI Antwort"}}
+  label_tool_call_request{{"Tool-Call-KI-Antwort"}}
   tool_call_request("tool_name: 'Kalender',\nparameters: {...}"):2
 ```
 
@@ -633,22 +623,22 @@ block
 ```mermaid
 block
   columns 3
-  label_system_prompt{{"system prompt"}}
+  label_system_prompt{{"System prompt"}}
 
   system_prompt("Du bist ein Assistent")
   tools("Zugang zum Kalender")
 
-  label_user_prompt{{"user prompt"}}
+  label_user_prompt{{"User prompt"}}
   user_prompt("Finde eine\nfreie Stunde nächste\nWoche für mich."):2
 
-  label_tool_call_request{{"Tool call KI Antwort"}}
+  label_tool_call_request{{"Tool-Call-KI-Antwort"}}
   tool_call_request("tool_name: 'Kalender',\nparameters: {...}"):2
 
   label_tool_response{{"Tool Message"}}
   tool_response("tool_response: \n'2025-10-22 9:00 - 10:00'"):2
 
-  label_ki_response{{"KI Antwort"}}
-  ki_response("Ich habe dir nächste\nWoche Mittwoch zwischen\n9:00 - 10:00 eine\nfreie Stunde gefunden."):2
+  label_ki_response{{"KI-Antwort"}}
+  ki_response("Ich habe dir nächste\nWoche Mittwoch zwischen\n9:00 und 10:00 eine\nfreie Stunde gefunden."):2
 ```
 
 </td>
@@ -672,16 +662,16 @@ block
 ```mermaid
 block
     columns 2
-    a("Kann eine Aktion ausführen")
+    a("Kann Aktionen ausführen")
     b("Kann Gespräche speichern")
-    c("Plant selber \n(Entscheidet welche Aktion zu machen)")
-    d("Kann Profil vom User halten\n(anhand alte / andere Gespräche)")
+    c("Plant selbst \n(entscheidet, welche Aktion auszuführen ist)")
+    d("Kann ein Profil des Nutzers führen\n(basierend auf früheren Gesprächen)")
 ```
 </div>
 
 ---
 
-# ChatGPT searching the web
+# ChatGPT durchsucht das Web
 
 ```mermaid
 sequenceDiagram
@@ -691,22 +681,22 @@ sequenceDiagram
     participant Google
     User->>ChatGPT: Was ist das leckerste Essen der Welt?
     ChatGPT->>LLM: Was ist das leckerste Essen der Welt?
-    LLM-->>ChatGPT: Google: leckerste Essen
-    ChatGPT->>Google: Google: leckerste Essen
-    Google-->>ChatGPT: Ungarische Lecsó
-    ChatGPT->>LLM: Was ist das leckerste Essen der Welt? -- Tool Call gefragt -- Google search-result: Ungarische Lecsó
-    LLM-->>ChatGPT: Ungarische Lecsó ist das leckerste
-    ChatGPT-->>User: Ungarische Lecsó ist das leckerste
+    LLM-->>ChatGPT: Google: leckerstes Essen
+    ChatGPT->>Google: Google: leckerstes Essen
+    Google-->>ChatGPT: Ungarisches Lecsó
+    ChatGPT->>LLM: Was ist das leckerste Essen der Welt? -- Tool Call angefordert -- Google search-result: Ungarisches Lecsó
+    LLM-->>ChatGPT: Ungarisches Lecsó ist das leckerste
+    ChatGPT-->>User: Ungarisches Lecsó ist das leckerste
 
 ```
 
 
 ---
 
-# KI Workflows
+# KI-Workflows
 
-- Umgangsprachlich Agente und Workflows sind gleich.
-- Welche Aktion ausgeführt wird, entscheidet die App, nicht das LLM.
+- Umgangssprachlich werden „Agenten“ und „Workflows“ oft gleichgesetzt.
+- Welche Aktion ausgeführt wird, entscheidet jedoch die App – nicht das LLM.
 
 
 --- 
@@ -741,11 +731,9 @@ sequenceDiagram
 
 # RAG
 
-- Wir wollen Dokumente in dem Prompt inkludieren.
-
-- Problem: Wir haben mehr Information als es in dem Context Window passt.
-
-- Lösung: Lass uns mit Embeddings filtern. (Vektor Datenbank)
+- Wir wollen Dokumente in den Prompt einfügen.
+- Problem: Wir haben mehr Informationen, als in das Context Window passen.
+- Lösung: Wir filtern mit Embeddings (Vektordatenbank).
 
 ---
 
@@ -754,7 +742,7 @@ sequenceDiagram
 <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
 
 ```python
-embeddings("Irgendein text")
+embeddings("Irgendein Text")
 ```
 
 <span> = </span>
@@ -772,30 +760,30 @@ embeddings("Irgendein text")
 </span>
 </div>
 
-- Sie sollen irgendwie die Bedeuting encodieren.
-- Die Vektore die näher sind, sind eher relevant.
-- Wir können den cos vom Winkel zwischen zwei Embedding Vektor schnell kalkulieren.
+- Sie sollen die Bedeutung des Textes codieren.
+- Vektoren, die näher beieinander liegen, sind semantisch ähnlicher.
+- Wir können den Kosinuswinkel zwischen zwei Embeddings schnell berechnen.
 
 
 ---
 
 # RAG
-(Retrieval-augmented generation)
+(Retrieval-Augmented Generation)
 
 <div style="padding-bottom: 50px;">
 
 ```mermaid
 graph LR
     user_query("Embedding von User Query")
-    d1("Embedding von Dokument 1") <--> |cos Winkel Vergleich|user_query
-    d2("Embedding von Dokument 2") <--> |cos Winkel Vergleich|user_query
-    d_other("...") <--> |cos Winkel Vergleich|user_query
+    d1("Embedding von Dokument 1") <--> |Kosinuswinkel-Vergleich|user_query
+    d2("Embedding von Dokument 2") <--> |Kosinuswinkel-Vergleich|user_query
+    d_other("...") <--> |Kosinuswinkel-Vergleich|user_query
 ```
 
 </div>
 
-- So können wir das relevanteste Dokument finden
-- "A" steht für potentiell den Inhalt von den Dokumenten verändern
+- So können wir das relevanteste Dokument finden.
+- „A“ steht für: Der Inhalt der Dokumente kann potenziell verändert werden.
 
 
 ---
@@ -803,4 +791,4 @@ layout: center
 ---
 
 # Danke für die Aufmerksamkeit
-(Habt ihr Fragen)
+(Habt ihr Fragen?)
