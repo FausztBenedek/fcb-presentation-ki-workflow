@@ -92,7 +92,7 @@ backgroundSize: contain
 - Vor unseren Anfragen an ChatGPT versteckt sich eine Beschreibung, die angibt, wie das LLM sich benimmt.
 
 <table>
-<tr v-click="1">
+<tr v-click="2">
 <td>System prompt</td>
 <td>
 
@@ -116,7 +116,7 @@ beeindrucken.
 ```
 </td>
 </tr>
-<tr>
+<tr v-click="1">
 <td>User prompt</td>
 <td>
 
@@ -135,7 +135,7 @@ mich in Budapest besuchen?
 ```
 </td>
 </tr>
-<tr v-click="2">
+<tr v-click="3">
 <td>KI Antwort</td>
 <td>
 
@@ -160,6 +160,48 @@ z.B. dem Goulash Disznókö.
 </td>
 </tr>
 </table>
+
+---
+
+# Context window (Kontextfenster)
+
+- Die maximale Größe vom Prompt.
+
+<table>
+<tr>
+    <th><b>LLM</b></th> <th><b>Context window (in tokens)</b></th>
+</tr>
+<tr>
+    <td>Llama 4 Scout</td> <td>10 Millionen</td>
+</tr>
+<tr>
+    <td>GPT 5</td> <td>400 Tausend</td>
+</tr>
+<tr>
+    <td>GPT OSS 20B</td><td>131 Tausend</td>
+</tr>
+</table>
+
+
+---
+
+# Temperature
+
+- Je höher, umso wahrscheinlicher ist der LLM die Tokens (Wörter) zu wählen, die nicht höchstwahrscheinlich sind.
+    - 0: immer das wahrscheinlichste
+    - 1: maximumwert
+
+<br />
+
+# KI Agente und KI Workflows
+
+- Dazu kommen wir noch am Ende
+
+---
+layout: center
+---
+
+# Was hier bei FCB gebaut wird?
 
 ---
 
@@ -362,12 +404,6 @@ graph TD
 </div>
 
 ---
-layout: center
----
-
-# Pheww
-
----
 
 <style>
 .evaluations-container {
@@ -454,10 +490,9 @@ layout: two-cols-header
 # Beispielzeit
 
 <table>
-
-<tr v-click>
+<tr>
 <td>
-1. Auslesen von Versicherungsnummer aus dem Text
+0. Kundenanfrage kommt an
 </td>
 
 <td>
@@ -474,7 +509,17 @@ Max Mustermann
 ```
 </td>
 </tr>
-<tr v-click>
+<tr>
+<td>
+1. Auslesen von Versicherungsnummer aus dem Text
+</td>
+
+<td>
+
+`LV-123456`
+</td>
+</tr>
+<tr>
 
 
 <td>
@@ -497,7 +542,7 @@ Max Mustermann
 
 </tr>
 
-<tr v-click>
+<tr>
 
 <td>
 
@@ -509,13 +554,13 @@ Max Mustermann
 </td>
 </tr>
 
-<tr v-click>
+<tr>
 <td>
 4. Dokumentabrufe
 </td>
 </tr>
 
-<tr v-click>
+<tr>
 <td>
     5. Kündigung durch LLM behandlen lassen
 </td>
@@ -538,7 +583,7 @@ Ihr KI Assistent
 </tr>
 
 
-<tr v-click>
+<tr>
 <td>
 6. Evaluierungen
 </td>
