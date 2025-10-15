@@ -31,12 +31,19 @@ onMounted(() => {
           }
         }
     }
-    onKeyToSlied('w', 4)
-    onKeyToSlied('e', 9)
+    onKeyToSlied('w', 5)
+    onKeyToSlied('e', 10)
   })
 })
 </script>
 
+
+--- 
+
+# Ziel dieser Preäsentation
+
+- Einleitung in die Begriffe im KI Umfeld
+- Zeigen die KI Lösung, die wir bei FCB zum Markt bringen wollen
 
 ---
 
@@ -48,17 +55,111 @@ onMounted(() => {
 <img src="./public/qrcode.svg" style="height: 90%; margin: auto;"/>
 </div>
 
-
+---
+layout: center
 ---
 
 # Wichtige Terminologie
 
-- Prompt
-- Context
-- LLM (Large Language Model)
-- Embeddings?
-- AI Agents?
-- Open Source und Open Source LLMs
+
+---
+
+<style>
+.slidev-layout {
+    display: flex;
+    flex-flow: column;
+}
+</style>
+
+# LLM - Large Language Model
+
+<LLMAsAFunction />
+
+---
+image: public/chat-gpt-interface.png
+layout: image-right
+backgroundSize: contain
+---
+
+# Prompt
+
+- Prompts sind Eingaben oder Anweisungen, die an ein Large Language Model (LLM) übermittelt werden
+
+---
+
+# System prompt
+
+- Vor unseren Anfragen an ChatGPT versteckt sich eine Beschreibung, die angibt, wie das LLM sich benimmt.
+
+<table>
+<tr v-click="1">
+<td>System prompt</td>
+<td>
+
+```
+Du bist ein hilfsbereiter 
+Assistent, der immer freundlich 
+und vertraut antwortet – so 
+locker, als wären alle deine 
+besten Freunde.:
+```
+</td>
+<td>
+
+```
+Du bist ein hilfsbereiter 
+Assistent, der stets so formal 
+wie möglich antwortet und immer 
+versucht, die Menschen mit 
+seinem Professionalismus zu 
+beeindrucken.
+```
+</td>
+</tr>
+<tr>
+<td>User prompt</td>
+<td>
+
+```
+Wohin soll ich meine deutschen 
+Kollegen mitnehmen, wenn sie 
+mich in Budapest besuchen?
+```
+</td>
+<td>
+
+```
+Wohin soll ich meine deutschen 
+Kollegen mitnehmen, wenn sie 
+mich in Budapest besuchen?
+```
+</td>
+</tr>
+<tr v-click="2">
+<td>KI Antwort</td>
+<td>
+
+```
+Super Frage! Nimm sie mit ins 
+Ruinencafé Szimpla Kert, es ist 
+ein absolutes Must-see in 
+Budapest und eine coole Location 
+für einen ersten Eindruck!
+```
+</td>
+<td>
+
+```
+Ich empfehle eine Führung durch 
+das ungarische Parlamentsgebäude, 
+gefolgt von einer traditionellen 
+ungarischen Mahlzeit in einem 
+authentischen Restaurant, wie 
+z.B. dem Goulash Disznókö.
+```
+</td>
+</tr>
+</table>
 
 ---
 
@@ -449,18 +550,4 @@ Ihr KI Assistent
 </tr>
 
 </table>
-
----
-
-<style>
-.slidev-layout {
-    display: flex;
-    flex-flow: column;
-}
-</style>
-
-
-# LLM - Large Language Model
-
-<LLMAsAFunction />
 
