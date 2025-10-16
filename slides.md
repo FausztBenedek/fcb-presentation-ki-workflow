@@ -126,7 +126,7 @@ Professionalismus zu beeindrucken.
 </td>
 </tr>
 <tr v-click="1">
-<td>User prompt</td>
+<td>User Prompt</td>
 <td>
 
 ```
@@ -640,7 +640,7 @@ block
   system_prompt("Du bist ein Assistent")
   tools("Zugang zum Kalender")
 
-  label_user_prompt{{"User prompt"}}
+  label_user_prompt{{"User Prompt"}}
   user_prompt("Finde eine\nfreie Stunde nächste\nWoche für mich."):2
 
   space:3
@@ -663,7 +663,7 @@ block
   system_prompt("Du bist ein Assistent")
   tools("Zugang zum Kalender")
 
-  label_user_prompt{{"User prompt"}}
+  label_user_prompt{{"User Prompt"}}
   user_prompt("Finde eine\nfreie Stunde nächste\nWoche für mich."):2
 
   label_tool_call_request{{"Tool-Call-KI-Antwort"}}
@@ -681,12 +681,36 @@ block
 ```
 </div>
 
+---
+
+# ChatGPT durchsucht das Web
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant ChatGPT
+    participant LLM
+    participant Google
+    User->>ChatGPT: 1. Was ist das leckerste Essen der Welt?
+    ChatGPT->>LLM: 2. Was ist das leckerste Essen der Welt?
+    LLM-->>ChatGPT: 3. Google: leckerstes Essen
+    ChatGPT->>Google: 4. Google such durch API: leckerstes Essen
+    Google-->>ChatGPT: 5. Ungarisches Lecsó
+    ChatGPT->>LLM: 6. (2. 3. 5. Mitgeschickt)
+    LLM-->>ChatGPT: Ungarisches Lecsó ist das leckerste auf der ganzen Welt
+    ChatGPT-->>User: Ungarisches Lecsó ist das leckerste auf der ganzen Welt
+```
 
 ---
 
 <style>
+.agents {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+}
 .agents .mermaid {
-
+    flex: 1;
     display: flex;
     justify-content: center;
 }
@@ -705,28 +729,6 @@ block
     d("Kann ein Profil des Nutzers führen\n(basierend auf früheren Gesprächen)")
 ```
 </div>
-
----
-
-# ChatGPT durchsucht das Web
-
-```mermaid
-sequenceDiagram
-    participant User
-    participant ChatGPT
-    participant LLM
-    participant Google
-    User->>ChatGPT: Was ist das leckerste Essen der Welt?
-    ChatGPT->>LLM: Was ist das leckerste Essen der Welt?
-    LLM-->>ChatGPT: Google: leckerstes Essen
-    ChatGPT->>Google: Google: leckerstes Essen
-    Google-->>ChatGPT: Ungarisches Lecsó
-    ChatGPT->>LLM: Was ist das leckerste Essen der Welt? -- Tool Call angefordert -- Google search-result: Ungarisches Lecsó
-    LLM-->>ChatGPT: Ungarisches Lecsó ist das leckerste
-    ChatGPT-->>User: Ungarisches Lecsó ist das leckerste
-
-```
-
 
 ---
 
@@ -769,7 +771,7 @@ sequenceDiagram
 # RAG
 
 - Wir wollen Dokumente in den Prompt einfügen.
-- Problem: Wir haben mehr Informationen, als in das Context Window passen.
+- Problem: Wir haben zu viel Text, er passt nicht ins Context Window.
 - Lösung: Wir filtern mit Embeddings (Vektordatenbank).
 
 ---
@@ -807,17 +809,13 @@ embeddings("Irgendein Text")
 # RAG
 (Retrieval-Augmented Generation)
 
-<div style="padding-bottom: 50px;">
-
 ```mermaid
 graph LR
-    user_query("Embedding von User Query")
-    d1("Embedding von Dokument 1") <--> |Kosinuswinkel-Vergleich|user_query
-    d2("Embedding von Dokument 2") <--> |Kosinuswinkel-Vergleich|user_query
+    user_query("Embeddings vom User Prompt")
+    d1("Embeddings vom Dokument 1") <--> |Kosinuswinkel-Vergleich|user_query
+    d2("Embeddings vom Dokument 2") <--> |Kosinuswinkel-Vergleich|user_query
     d_other("...") <--> |Kosinuswinkel-Vergleich|user_query
 ```
-
-</div>
 
 - So können wir das relevanteste Dokument finden.
 - „A“ steht für: Der Inhalt der Dokumente kann potenziell verändert werden.
