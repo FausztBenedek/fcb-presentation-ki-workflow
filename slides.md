@@ -32,8 +32,8 @@ onMounted(() => {
           }
         }
     }
-    onKeyToSlied('w', 5)
-    onKeyToSlied('e', 10)
+    onKeyToSlied('a', 12)
+    onKeyToSlied('e', 18)
   })
 })
 </script>
@@ -41,7 +41,7 @@ onMounted(() => {
 
 # Ziel dieser Präsentation
 
-- Einführung in die Begriffe im KI-Umfeld
+- Mehr Einblick ins KI-Umfeld
 - Vorstellung der KI-Lösung, die wir bei FCB auf den Markt bringen wollen
 
 ---
@@ -74,6 +74,19 @@ layout: center
 
 <LLMAsAFunction />
 
+
+---
+
+<style>
+.youtube {
+width: 100%;
+height: 100%;
+
+}
+</style>
+
+<Youtube id="LPZh9BOjkQs" />
+
 ---
 image: public/chat-gpt-interface.png
 layout: image-right
@@ -91,27 +104,24 @@ backgroundSize: contain
 - Hinter unseren Anfragen an ChatGPT verbirgt sich eine Beschreibung, die festlegt, wie sich das LLM verhalten soll.
 
 <table>
+<tbody>
 <tr v-click="2">
 <td>System prompt</td>
 <td>
 
 ```
-Du bist ein hilfsbereiter 
-Assistent, der immer freundlich 
-und vertraut antwortet – so 
-locker, als wären alle deine 
-besten Freunde.:
+Du bist ein hilfsbereiter Assistent, der immer 
+freundlich und vertraut antwortet – so locker, 
+als wären alle deine besten Freunde.
 ```
 </td>
 <td>
 
 ```
-Du bist ein hilfsbereiter 
-Assistent, der stets so formal 
-wie möglich antwortet und immer 
-versucht, die Menschen mit 
-seinem Professionalismus zu 
-beeindrucken.
+Du bist ein hilfsbereiter Assistent, der stets 
+so formal wie möglich antwortet und immer 
+versucht, die Menschen mit seinem 
+Professionalismus zu beeindrucken.
 ```
 </td>
 </tr>
@@ -120,17 +130,15 @@ beeindrucken.
 <td>
 
 ```
-Wohin soll ich meine deutschen 
-Kollegen mitnehmen, wenn sie 
-mich in Budapest besuchen?
+Wohin soll ich meine deutschen Kollegen 
+mitnehmen, wenn sie mich in Budapest besuchen?
 ```
 </td>
 <td>
 
 ```
-Wohin soll ich meine deutschen 
-Kollegen mitnehmen, wenn sie 
-mich in Budapest besuchen?
+Wohin soll ich meine deutschen Kollegen 
+mitnehmen, wenn sie mich in Budapest besuchen?
 ```
 </td>
 </tr>
@@ -139,25 +147,24 @@ mich in Budapest besuchen?
 <td>
 
 ```
-Super Frage! Nimm sie mit ins 
-Ruinencafé Szimpla Kert, es ist 
-ein absolutes Must-see in 
-Budapest und eine coole Location 
-für einen ersten Eindruck!
+Super Frage! Nimm sie mit ins Ruinencafé 
+Szimpla Kert, es ist ein absolutes Must-see in 
+Budapest und eine coole Location für einen 
+ersten Eindruck!
 ```
 </td>
 <td>
 
 ```
-Ich empfehle eine Führung durch 
-das ungarische Parlamentsgebäude, 
-gefolgt von einer traditionellen 
-ungarischen Mahlzeit in einem 
-authentischen Restaurant, wie 
-z.B. dem Goulash Disznókö.
+Ich empfehle eine Führung durch das ungarische 
+Parlamentsgebäude, gefolgt von einer 
+traditionellen ungarischen Mahlzeit in einem 
+authentischen Restaurant, wie z.B. dem Goulash 
+Disznókö.
 ```
 </td>
 </tr>
+</tbody>
 </table>
 
 ---
@@ -167,6 +174,7 @@ z.B. dem Goulash Disznókö.
 - Die maximale Größe des Prompts.
 
 <table>
+<tbody>
 <tr>
     <th><b>LLM</b></th> <th><b>Context Window (in Tokens)</b></th>
 </tr>
@@ -179,6 +187,10 @@ z.B. dem Goulash Disznókö.
 <tr>
     <td>GPT OSS 20B</td><td>131 000</td>
 </tr>
+<tr>
+    <td>GPT-3.5</td><td>4 096</td><td>Damit hat OpenAI den AI-Boom gestartet</td>
+</tr>
+</tbody>
 </table>
 
 ---
@@ -234,6 +246,26 @@ graph LR
     uncovered("Nicht bearbeitbar") --> __END__;
 
 ```
+
+---
+
+<style>
+.explanation .mermaid {
+    padding-top: 90px;
+    padding-left: 300px;
+}
+</style>
+
+# Konvention bei meinen Diagrammen
+
+<div class="explanation">
+
+```mermaid
+graph LR
+    llm[[In diesem Block wird ein LLM angesprochen]]
+    api_call{{In diesem Block wird eine API angesprochen}}
+```
+</div>
 
 ---
 
@@ -348,8 +380,6 @@ ask_for_more_information --> answer
 ```mermaid
 
 graph TD
-    llm[[In diesem Block wird ein LLM angesprochen]]
-    api_call{{In diesem Block wird eine API angesprochen}}
 
     __START__(Start)
     __START__ --> Pre-process
@@ -458,7 +488,7 @@ layout: two-cols-header
 
 ::right::
 
-## Nutzen
+## Vorteile
 
 - Hilfreich bei der Fehlersuche
 - Monitoring bei Updates
@@ -482,6 +512,7 @@ layout: two-cols-header
 # Beispielablauf
 
 <table>
+<tbody>
 <tr>
 <td>
 0. Kundenanfrage geht ein
@@ -585,6 +616,7 @@ Ihr KI-Assistent
 </td>
 </tr>
 
+</tbody>
 </table>
 
 ---
@@ -594,12 +626,11 @@ layout: center
 # Expertenterminologie
 
 ---
+layout: two-cols
+---
 
 # Tool calling
 
-<table>
-<tr>
-<td> 
 
 ```mermaid
 block
@@ -612,13 +643,17 @@ block
   label_user_prompt{{"User prompt"}}
   user_prompt("Finde eine\nfreie Stunde nächste\nWoche für mich."):2
 
+  space:3
+
   label_tool_call_request{{"Tool-Call-KI-Antwort"}}
   tool_call_request("tool_name: 'Kalender',\nparameters: {...}"):2
+
+  user_prompt -- "Antwort vom LLM" --> tool_call_request
 ```
 
-</td>
-<td v-click> 
+::right::
 
+<div v-click>
 
 ```mermaid
 block
@@ -637,13 +672,15 @@ block
   label_tool_response{{"Tool Message"}}
   tool_response("tool_response: \n'2025-10-22 9:00 - 10:00'"):2
 
+  space:3
+
   label_ki_response{{"KI-Antwort"}}
   ki_response("Ich habe dir nächste\nWoche Mittwoch zwischen\n9:00 und 10:00 eine\nfreie Stunde gefunden."):2
-```
 
-</td>
-</tr>
-</table>
+  tool_response -- "Antwort vom LLM" --> ki_response
+```
+</div>
+
 
 ---
 

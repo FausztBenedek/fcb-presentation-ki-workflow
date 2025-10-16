@@ -22,15 +22,19 @@ export default defineMermaidSetup(() => {
     .actor tspan {
       fill: white !important;
     }
-    .edgeLabel p {
+    .edgeLabel, .edgeLabel p {
       background-color: #ffffff !important;
     }
     .cluster rect {
       stroke: black;
       fill: white !important;
     }
-    .nodeLabel {
+    .block .nodeLabel {
       color: white !important;
+    }
+    .default rect.cluster {
+      fill: white !important;
+      stroke: #283149 !important;
     }
     `
   }
