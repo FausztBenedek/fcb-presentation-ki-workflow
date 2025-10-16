@@ -199,7 +199,6 @@ Disznókö.
 
 - Je höher der Wert, desto wahrscheinlicher ist es, dass das LLM Tokens (Wörter) wählt, die nicht am wahrscheinlichsten sind.
     - 0: immer das wahrscheinlichste
-    - 1: Maximumwert
 
 <br />
 
@@ -579,13 +578,7 @@ Max Mustermann
 
 <tr>
 <td>
-4. Dokumentenabruf
-</td>
-</tr>
-
-<tr>
-<td>
-5. Kündigung durch LLM behandeln lassen
+4. Kündigung durch LLM behandeln lassen
 </td>
 <td>
 
@@ -607,7 +600,7 @@ Ihr KI-Assistent
 
 <tr>
 <td>
-6. Evaluierungen
+5. Evaluierungen
 </td>
 <td>
 
