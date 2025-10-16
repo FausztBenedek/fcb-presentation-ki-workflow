@@ -88,14 +88,17 @@ height: 100%;
 <Youtube id="LPZh9BOjkQs" />
 
 ---
-image: public/chat-gpt-interface.png
-layout: image-right
+layout: two-cols
 backgroundSize: contain
 ---
 
 # Prompt
 
 - Prompts sind Eingaben oder Anweisungen, die an ein Large Language Model (LLM) übermittelt werden.
+
+::right::
+
+<img src="./public/chat-gpt-interface.png" style="max-width: 92%"/>
 
 ---
 
