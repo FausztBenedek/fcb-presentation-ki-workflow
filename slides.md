@@ -7,7 +7,7 @@ background: #f9f5f4
 layout: center
 ---
 
-# KI-Workflows bei Versicherungen
+# KI-Agenten - Entwicklungsperspektive
 <script setup>
 import { useNav } from '@slidev/client'
 import { onMounted } from 'vue'
