@@ -39,6 +39,8 @@ onMounted(() => {
 </script>
 --- 
 
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
+
 # Ziel dieser Präsentation
 
 - Mehr Einblick ins KI-Umfeld
@@ -46,6 +48,7 @@ onMounted(() => {
 
 ---
 
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
 <div style="height: 100%;">
 
 # Wenn ihr mit dem Handy folgen wollt
@@ -58,10 +61,14 @@ onMounted(() => {
 layout: center
 ---
 
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
+
 # Wichtige Terminologie
 
 
 ---
+
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
 
 <style>
 .slidev-page-5 .slidev-layout {
@@ -79,8 +86,8 @@ layout: center
 
 <style>
 .youtube {
-width: 100%;
-height: 100%;
+    width: 100%;
+    height: 100%;
 
 }
 </style>
@@ -92,6 +99,8 @@ layout: two-cols
 backgroundSize: contain
 ---
 
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
+
 # Prompt
 
 - Prompts sind Eingaben oder Anweisungen, die an ein Large Language Model (LLM) übermittelt werden.
@@ -101,6 +110,8 @@ backgroundSize: contain
 <img src="./public/chat-gpt-interface.png" style="max-width: 92%"/>
 
 ---
+
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
 
 # System Prompt
 
@@ -172,6 +183,8 @@ Disznókö.
 
 ---
 
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
+
 # Context Window (Kontextfenster)
 
 - Die maximale Größe des Prompts.
@@ -198,6 +211,8 @@ Disznókö.
 
 ---
 
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
+
 # Temperature
 
 - Je höher der Wert, desto wahrscheinlicher ist es, dass das LLM Tokens (Wörter) wählt, die nicht am wahrscheinlichsten sind.
@@ -213,9 +228,13 @@ Disznókö.
 layout: center
 ---
 
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
+
 # Was wird hier, bei FCB gebaut?
 
 ---
+
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
 
 # Architektur
 
@@ -258,6 +277,8 @@ graph LR
 }
 </style>
 
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
+
 # Konvention bei meinen Diagrammen
 
 <div class="explanation">
@@ -281,6 +302,8 @@ graph LR
 
 <div class="container">
 <div>
+
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
 
 # Pre-Process
 
@@ -319,6 +342,8 @@ graph TD
 
 ---
 
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
+
 # Router
 
 - Entscheidet mithilfe eines LLMs zwischen den GeVos.
@@ -336,6 +361,8 @@ Möglichkeiten:
 ```
 
 ---
+
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
 
 # Kündigung
 ```mermaid
@@ -362,11 +389,15 @@ ask_for_more_information --> answer
 
 ---
 
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
+
 # Adressänderung
 
 - Wird derzeit entwickelt.
 
 ---
+
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
 
 # Architektur
 
@@ -441,6 +472,8 @@ graph TD
 <div class="evaluations-container">
 <div>
 
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
+
 # Evaluierungen
 
 
@@ -476,6 +509,8 @@ Evaluierungen --> termination_handling
 layout: two-cols-header
 ---
 
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
+
 # Evaluierungen
 
 (Es gibt menschliche und LLM-basierte Evaluierungen)
@@ -510,6 +545,8 @@ layout: two-cols-header
     overflow: scroll;
 }
 </style>
+
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
 
 # Beispielablauf
 
@@ -619,6 +656,8 @@ Ihr KI-Assistent
 layout: center
 ---
 
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
+
 # Expertenterminologie
 
 ---
@@ -679,6 +718,8 @@ block
 
 ---
 
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
+
 # ChatGPT durchsucht das Web
 
 ```mermaid
@@ -714,6 +755,8 @@ sequenceDiagram
 
 <div class="agents">
 
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
+
 # KI Agenten
 
 ```mermaid
@@ -727,6 +770,8 @@ block
 </div>
 
 ---
+
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
 
 # KI-Workflows
 
@@ -764,6 +809,8 @@ block
 }
 </style>
 
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
+
 # RAG
 
 - Wir wollen Dokumente in den Prompt einfügen.
@@ -771,6 +818,8 @@ block
 - Lösung: Wir filtern mit Embeddings (Vektordatenbank).
 
 ---
+
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
 
 # So funktionieren Embeddings
 
@@ -802,6 +851,8 @@ embeddings("Irgendein Text")
 
 ---
 
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
+
 # RAG
 (Retrieval-Augmented Generation)
 
@@ -820,6 +871,8 @@ graph LR
 ---
 layout: center
 ---
+
+<img src="./public/logo-blau.svg" style="position: absolute; width: 100px; right: 30px; top: 30px;"/>
 
 # Danke für die Aufmerksamkeit
 (Habt ihr Fragen?)
